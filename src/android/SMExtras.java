@@ -13,37 +13,19 @@ public class SMExtras extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
     if (action.equalsIgnoreCase("disableIdleTimeout")) {
-      cordova.getActivity().runOnUiThread(new Runnable() {
-        public void run() {
-          cordova.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
-      });
+      this.disableIdleTimeout();
       return true;
     }
 
-    if (action.equalsIgnoreCase("enableIdleTimeout")){
-      cordova.getActivity().runOnUiThread(new Runnable() {
-        public void run() {
-          cordova.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        }
-      });
+    if (action.equalsIgnoreCase("enableIdleTimeout")) {
+      this.enableIdleTimeout();
       return true;
     }
 
     if (action.equalsIgnoreCase("share")) {
       String text = args.getString(0);
       String title = args.getString(1);
-      // try {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-        sendIntent.setType("text/plain");
-        Intent shareIntent = Intent.createChooser(sendIntent, title)
-        cordova.getActivity().startActivity(shareIntent);
-        callbackContext.success();
-      // } catch(Error e) {
-      //   callbackContext.error(e.getMessage());
-      // }
+      this.share(text, title, callbackContext);
       return true;
     }
 
@@ -51,4 +33,33 @@ public class SMExtras extends CordovaPlugin {
     return false;
   }
 
+  private void disableIdleTimeout() {
+    cordova.getActivity().runOnUiThread(new Runnable() {
+      public void run() {
+        cordova.getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+      }
+    });
+  }
+
+  private void enableIdleTimeout() {
+    cordova.getActivity().runOnUiThread(new Runnable() {
+      public void run() {
+        cordova.getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+      }
+    });
+  }
+
+  private void share(String text, String title, CallbackContext callbackContext) {
+    // try {
+      Intent sendIntent = new Intent();
+      sendIntent.setAction(Intent.ACTION_SEND);
+      sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+      sendIntent.setType("text/plain");
+      Intent shareIntent = Intent.createChooser(sendIntent, title);
+      cordova.getActivity().startActivity(shareIntent);
+      callbackContext.success();
+    // } catch(Error e) {
+    //   callbackContext.error(e.getMessage());
+    // }
+  }
 }
