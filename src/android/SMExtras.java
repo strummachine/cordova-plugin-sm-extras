@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 
 import android.view.WindowManager;
+import android.content.Intent;
 
 public class SMExtras extends CordovaPlugin {
 
