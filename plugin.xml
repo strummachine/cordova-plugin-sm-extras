@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-sm-extras" version="0.1.0"
+xmlns="http://apache.org/cordova/ns/plugins/1.0"
+xmlns:android="http://schemas.android.com/apk/res/android">
+  <name>SM Extras for Cordova</name>
+
+  <dependency id="cordova-plugin-add-swift-support" version="2.0.2"/>
+
+  <js-module name="SMExtras" src="www/SMExtras.js">
+    <clobbers target="cordova.plugins.SMExtras" />
+  </js-module>
+
+  <platform name="ios">
+    <config-file target="config.xml" parent="/*">
+      <feature name="SMExtras">
+        <param name="ios-package" value="SMExtras"/>
+      </feature>
+    </config-file>
+    <source-file src="src/ios/SMExtras.swift" />
+  </platform>
+
+  <platform name="android">
+    <config-file target="res/xml/config.xml" parent="/*">
+      <feature name="SMExtras" >
+        <param name="android-package" value="com.strummachine.cordova.SMExtras"/>
+      </feature>
+    </config-file>
+    <source-file src="src/android/SMExtras.java" target-dir="src/com/strummachine/cordova" />
+  </platform>
+</plugin>

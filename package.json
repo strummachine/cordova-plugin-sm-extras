@@ -1,0 +1,13 @@
+{
+  "name": "cordova-plugin-sm-extras",
+  "version": "0.1.0",
+  "description": "SM Extras for Cordova",
+  "cordova": {
+    "id": "cordova-plugin-sm-extras",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "author": "Luke Abbott"
+}
