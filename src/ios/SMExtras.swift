@@ -25,23 +25,6 @@ import AVFoundation
     })
   }
 
-  @objc(share:) func share(command: CDVInvokedUrlCommand) {
-    let text  = command.arguments[0] as? String ?? ""
-    //let title = command.arguments[1] as? String ?? ""  // currently unused
-    let url   = command.arguments[2] as? String ?? ""
-
-    if let urlForShare = NSURL(string: url) {
-      let objectsToShare: [Any] = [text, urlForShare]
-      let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-      self.viewController.present(activityVC, animated: true, completion: nil)
-    }
-
-    self.commandDelegate!.send(
-      CDVPluginResult(status: CDVCommandStatus_OK),
-      callbackId: command.callbackId
-    )
-  }
-
   @objc(requestAppReview:) func requestAppReview(command: CDVInvokedUrlCommand) {
     if #available(iOS 10.3, *) {
         SKStoreReviewController.requestReview()
