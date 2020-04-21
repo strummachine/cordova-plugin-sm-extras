@@ -25,26 +25,6 @@ import AVFoundation
     })
   }
 
-  @objc(startAudioPlayback:) func startAudioPlayback(command: CDVInvokedUrlCommand) {
-    try! AVAudioSession.sharedInstance().setCategory(.playback, options: .mixWithOthers)
-    try! AVAudioSession.sharedInstance().setActive(true)
-
-    self.commandDelegate!.send(
-      CDVPluginResult(status: CDVCommandStatus_OK),
-      callbackId: command.callbackId
-    )
-  }
-
-  @objc(stopAudioPlayback:) func stopAudioPlayback(command: CDVInvokedUrlCommand) {
-    try! AVAudioSession.sharedInstance().setCategory(.ambient)
-    try! AVAudioSession.sharedInstance().setActive(false)
-
-    self.commandDelegate!.send(
-      CDVPluginResult(status: CDVCommandStatus_OK),
-      callbackId: command.callbackId
-    )
-  }
-
   @objc(share:) func share(command: CDVInvokedUrlCommand) {
     let text  = command.arguments[0] as? String ?? ""
     //let title = command.arguments[1] as? String ?? ""  // currently unused

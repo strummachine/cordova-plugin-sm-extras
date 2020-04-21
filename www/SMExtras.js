@@ -23,11 +23,3 @@ exports.requestAppReview = function(args, success, error) {
 exports.openURL = function(url, success, error) {
   exec(success, error, "SMExtras", "openURL", [url]);
 };
-
-exports.startAudioPlayback = function(args, success, error) {
-  exec(success, error, "SMExtras", "startAudioPlayback", []);
-};
-
-exports.stopAudioPlayback = function(url, success, error) {
-  exec(success, error, "SMExtras", "stopAudioPlayback", [url]);
-};
