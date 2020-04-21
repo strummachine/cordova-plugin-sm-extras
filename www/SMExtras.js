@@ -20,6 +20,10 @@ exports.share = function(args, success, error) {
  * iOS-only methods:
  */
 
+exports.getLatency = function(args, success, error) {
+  exec(success, error, "SMExtras", "getLatency", []);
+};
+
 exports.requestAppReview = function(args, success, error) {
   exec(success, error, "SMExtras", "requestAppReview", []);
 };

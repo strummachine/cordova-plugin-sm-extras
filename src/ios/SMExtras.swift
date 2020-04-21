@@ -3,6 +3,19 @@ import AVFoundation
 
 @objc(SMExtras) class SMExtras : CDVPlugin {
 
+  @objc(getLatency:) func getLatency(command: CDVInvokedUrlCommand) {
+    DispatchQueue.main.async(execute: {
+      let latency = AVAudioSession.sharedInstance().outputLatency + AVAudioSession.sharedInstance().ioBufferDuration
+      self.commandDelegate!.send(
+        CDVPluginResult(
+          status: CDVCommandStatus_OK,
+          messageAs: latency
+        ),
+        callbackId: command.callbackId
+      )
+    })
+  }
+
   @objc(disableIdleTimeout:) func disableIdleTimeout(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
       UIApplication.shared.isIdleTimerDisabled = true
