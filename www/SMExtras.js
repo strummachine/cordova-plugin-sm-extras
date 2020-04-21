@@ -12,12 +12,22 @@ exports.share = function(args, success, error) {
   exec(success, error, "SMExtras", "share", [args.text || "", args.title || "", args.url || ""]);
 };
 
-// iOS only
+/**
+ * iOS only methods:
+ */
+
 exports.requestAppReview = function(args, success, error) {
   exec(success, error, "SMExtras", "requestAppReview", []);
 };
 
-// iOS only
 exports.openURL = function(url, success, error) {
   exec(success, error, "SMExtras", "openURL", [url]);
+};
+
+exports.startAudioPlayback = function(args, success, error) {
+  exec(success, error, "SMExtras", "startAudioPlayback", []);
+};
+
+exports.stopAudioPlayback = function(url, success, error) {
+  exec(success, error, "SMExtras", "stopAudioPlayback", [url]);
 };
