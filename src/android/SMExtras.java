@@ -37,12 +37,12 @@ public class SMExtras extends CordovaPlugin {
       // There's no guarantee this method exists. Do nothing.
     }
     audioTrack = new AudioTrack(
-      AudioManager.STREAM_MUSIC,
+      AudioManager.STREAM_NOTIFICATION,
       sampleRate,
-      AudioFormat.CHANNEL_OUT_MONO,
+      AudioFormat.CHANNEL_OUT_STEREO,
       AudioFormat.ENCODING_PCM_16BIT,
-      AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT), // buffer length in bytes
-      AudioTrack.MODE_STATIC);
+      AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT), // buffer length in bytes
+      AudioTrack.MODE_STREAM);
   }
 
   @Override
@@ -109,7 +109,7 @@ public class SMExtras extends CordovaPlugin {
       if ( getLatencyMethod != null && audioTrack != null ) {
         try {
           Integer swLatencyMs = (Integer) getLatencyMethod.invoke(audioTrack);
-          callbackContext.success("swLatencyMs: " +  String.valueOf(swLatencyMs) + " - sampleRate: " + String.valueOf(sampleRate) + " - sampleRate: " + String.valueOf(sampleRate));
+          callbackContext.success("swLatencyMs: " +  String.valueOf(swLatencyMs));
         } catch (Exception e) {
           callbackContext.success(-1);
         }
