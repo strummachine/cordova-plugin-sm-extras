@@ -109,7 +109,7 @@ public class SMExtras extends CordovaPlugin {
       if ( getLatencyMethod != null && audioTrack != null ) {
         try {
           Integer swLatencyMs = (Integer) getLatencyMethod.invoke(audioTrack);
-          callbackContext.success("swLatencyMs: " +  String.valueOf(swLatencyMs));
+          callbackContext.success(swLatencyMs);
         } catch (Exception e) {
           callbackContext.success(-1);
         }
