@@ -1,11 +1,15 @@
 var exec = require('cordova/exec');
 
-exports.disableIdleTimeout = function (args, success, error) {
+exports.disableIdleTimeout = function (success, error) {
   exec(success, error, "SMExtras", 'disableIdleTimeout', []);
 };
 
-exports.enableIdleTimeout = function (args, success, error) {
+exports.enableIdleTimeout = function (success, error) {
   exec(success, error, "SMExtras", 'enableIdleTimeout', []);
+};
+
+exports.getLatency = function(success, error) {
+  exec(success, error, "SMExtras", "getLatency", []);
 };
 
 /**
@@ -20,14 +24,10 @@ exports.share = function(args, success, error) {
  * iOS-only methods:
  */
 
-exports.getLatency = function(args, success, error) {
-  exec(success, error, "SMExtras", "getLatency", []);
-};
-
-exports.requestAppReview = function(args, success, error) {
-  exec(success, error, "SMExtras", "requestAppReview", []);
-};
-
 exports.openURL = function(url, success, error) {
   exec(success, error, "SMExtras", "openURL", [url]);
+};
+
+exports.requestAppReview = function(success, error) {
+  exec(success, error, "SMExtras", "requestAppReview", []);
 };
