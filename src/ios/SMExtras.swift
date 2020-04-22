@@ -3,6 +3,8 @@ import AVFoundation
 
 @objc(SMExtras) class SMExtras : CDVPlugin {
 
+  private lazy var muteSwitchDetector = MuteSwitchDetector()
+
   @objc(getLatency:) func getLatency(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
       let latency = AVAudioSession.sharedInstance().outputLatency + AVAudioSession.sharedInstance().ioBufferDuration
@@ -13,6 +15,20 @@ import AVFoundation
         ),
         callbackId: command.callbackId
       )
+    })
+  }
+
+  @objc(detectMuteSwitch:) func detectMuteSwitch(command: CDVInvokedUrlCommand) {
+    DispatchQueue.main.async(execute: {
+      muteSwitchDetector.testPlayback() { silent in
+        self.commandDelegate!.send(
+          CDVPluginResult(
+            status: CDVCommandStatus_OK,
+            messageAs: silent
+          ),
+          callbackId: command.callbackId
+        )
+      }
     })
   }
 

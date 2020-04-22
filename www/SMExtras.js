@@ -24,6 +24,10 @@ exports.share = function(args, success, error) {
  * iOS-only methods:
  */
 
+exports.detectMuteSwitch = function(success, error) {
+  exec(success, error, "SMExtras", "detectMuteSwitch", []);
+};
+
 exports.openURL = function(url, success, error) {
   exec(success, error, "SMExtras", "openURL", [url]);
 };

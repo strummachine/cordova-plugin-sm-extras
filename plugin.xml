@@ -17,6 +17,7 @@ xmlns:android="http://schemas.android.com/apk/res/android">
       </feature>
     </config-file>
     <source-file src="src/ios/SMExtras.swift" />
+    <source-file src="src/ios/MuteSwitchDetector.swift" />
   </platform>
 
   <platform name="android">
