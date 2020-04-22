@@ -32,7 +32,7 @@ public class SMExtras extends CordovaPlugin {
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
     try {
-      getLatencyMethod = (Integer) AudioTrack.class.getMethod("getLatency", (Class<?>[]) null);
+      getLatencyMethod = AudioTrack.class.getMethod("getLatency", (Class<?>[]) null);
     } catch (Throwable e) {
       // There's no guarantee this method exists. Do nothing.
     }
@@ -108,7 +108,7 @@ public class SMExtras extends CordovaPlugin {
     try {
       if ( getLatencyMethod != null && audioTrack != null ) {
         try {
-          Integer swLatencyMs = getLatencyMethod.invoke(audioTrack);
+          Integer swLatencyMs = (Integer) getLatencyMethod.invoke(audioTrack);
           // return swLatencyMs * (sampleRate / 1000);
           Log.i("swLatencyMs", String.valueOf(swLatencyMs));
           Log.i("sampleRate", String.valueOf(sampleRate));
