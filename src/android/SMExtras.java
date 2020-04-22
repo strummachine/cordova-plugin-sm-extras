@@ -17,23 +17,23 @@ import android.media.AudioTrack;
 import android.util.Log;
 
 import java.lang.reflect.Method;
-import androidx.annotation.Nullable;
+// import androidx.annotation.Nullable;
 import android.media.AudioFormat;
 import android.media.AudioManager;
 
 
 public class SMExtras extends CordovaPlugin {
 
-  @Nullable private Method getLatencyMethod;
-  @Nullable private AudioTrack audioTrack;
+  private Method getLatencyMethod;
+  private AudioTrack audioTrack;
   private Integer sampleRate = 44100;
 
   @Override
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
     super.initialize(cordova, webView);
     try {
-      getLatencyMethod = AudioTrack.class.getMethod("getLatency", (Class<?>[]) null);
-    } catch (Throwable e) { //AMZN_CHANGE_ONELINE: Some legacy devices throw unexpected errors
+      getLatencyMethod = (Integer) AudioTrack.class.getMethod("getLatency", (Class<?>[]) null);
+    } catch (Throwable e) {
       // There's no guarantee this method exists. Do nothing.
     }
     audioTrack = new AudioTrack(
