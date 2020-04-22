@@ -2,6 +2,8 @@ package com.strummachine.cordova;
 
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaInterface;
+import org.apache.cordova.CordovaWebView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,6 +15,11 @@ import android.media.AudioTimestamp;
 import android.media.AudioTrack;
 
 import android.util.Log;
+
+import java.lang.reflect.Method;
+import androidx.annotation.Nullable;
+import android.media.AudioFormat;
+import android.media.AudioManager;
 
 
 public class SMExtras extends CordovaPlugin {
@@ -99,9 +106,9 @@ public class SMExtras extends CordovaPlugin {
 
   private void getLatency(CallbackContext callbackContext) {
     try {
-      if ( getLatencyMethod != null ) {
+      if ( getLatencyMethod != null && audioTrack != null ) {
         try {
-          Integer swLatencyMs = getLatencyMethod.invoke(Assertions.checkNotNull(audioTrack));
+          Integer swLatencyMs = getLatencyMethod.invoke(audioTrack);
           // return swLatencyMs * (sampleRate / 1000);
           Log.i("swLatencyMs", String.valueOf(swLatencyMs));
           Log.i("sampleRate", String.valueOf(sampleRate));
