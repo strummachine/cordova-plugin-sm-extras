@@ -101,7 +101,7 @@ public class SMExtras extends CordovaPlugin {
     try {
       if ( getLatencyMethod != null ) {
         try {
-          Integer swLatencyMs = castNonNull((Integer) getLatencyMethod.invoke(Assertions.checkNotNull(audioTrack))) * 1000L;
+          Integer swLatencyMs = getLatencyMethod.invoke(Assertions.checkNotNull(audioTrack));
           // return swLatencyMs * (sampleRate / 1000);
           Log.i("swLatencyMs", String.valueOf(swLatencyMs));
           Log.i("sampleRate", String.valueOf(sampleRate));
