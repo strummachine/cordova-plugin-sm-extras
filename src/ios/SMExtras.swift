@@ -5,10 +5,12 @@ import StoreKit
   @objc(getLatency:) func getLatency(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
       let latency = AVAudioSession.sharedInstance().outputLatency + AVAudioSession.sharedInstance().ioBufferDuration
+      print("outputLatency", AVAudioSession.sharedInstance().outputLatency)
+      print("ioBufferDuration", AVAudioSession.sharedInstance().ioBufferDuration)
       self.commandDelegate!.send(
         CDVPluginResult(
           status: CDVCommandStatus_OK,
-          messageAs: latency
+          messageAs: latency * 1000   // return latency in milliseconds
         ),
         callbackId: command.callbackId
       )
