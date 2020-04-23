@@ -1,5 +1,5 @@
 //
-//  SKMuteSwitchDetector.m
+//  MuteSwitchDetector.m
 //
 //  Created by Filipe on 09/12/13.
 //  Copyright (c) 2013 skmobi. All rights reserved.
@@ -7,7 +7,7 @@
 //  Adapted from SKMuteSwitchDetector by Moshe Gottlieb (Sharkfood) @ http://sharkfood.com/archives/450
 //  All credits to him
 
-#import "SKMuteSwitchDetector.h"
+#import "MuteSwitchDetector.h"
 #import <AudioToolbox/AudioToolbox.h>
 
 #define SAMPLE_RATE 44000
@@ -16,7 +16,7 @@
 void MuteSoundPlaybackComplete(SystemSoundID  ssID,void* clientData){
 
     NSDictionary *soundData = CFBridgingRelease(clientData);
-    SKMuteSwitchDetectorBlock andPerform = soundData[@"andPerform"];
+    MuteSwitchDetectorBlock andPerform = soundData[@"andPerform"];
     SystemSoundID soundId = [soundData[@"soundId"] unsignedIntValue];
 
     NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - [soundData[@"start"] doubleValue];
@@ -65,9 +65,9 @@ BOOL createSoundFileIfRequired(NSString* soundFile) {
     return [data writeToFile:soundFile atomically:YES];
 }
 
-@implementation SKMuteSwitchDetector
+@implementation MuteSwitchDetector
 
-+ (void)checkSwitch:(SKMuteSwitchDetectorBlock)andPerform {
++ (void)checkSwitch:(MuteSwitchDetectorBlock)andPerform {
     if (!andPerform) return;
 
     NSString *soundFile = [NSHomeDirectory() stringByAppendingPathComponent:@"Library/Caches/silence.wav"];

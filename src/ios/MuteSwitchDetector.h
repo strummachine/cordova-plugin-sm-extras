@@ -1,5 +1,5 @@
 //
-//  SKMuteSwitchDetector.h
+//  MuteSwitchDetector.h
 //
 //  Created by Filipe on 09/12/13.
 //  Copyright (c) 2013 skmobi. All rights reserved.
@@ -10,10 +10,10 @@
 #import <Foundation/Foundation.h>
 
 
-typedef void(^SKMuteSwitchDetectorBlock)(BOOL success, BOOL silent);
+typedef void(^MuteSwitchDetectorBlock)(BOOL success, BOOL silent);
 
-@interface SKMuteSwitchDetector : NSObject
+@interface MuteSwitchDetector : NSObject
 
-+ (void)checkSwitch:(SKMuteSwitchDetectorBlock)andPerform;
++ (void)checkSwitch:(MuteSwitchDetectorBlock)andPerform;
 
 @end

@@ -17,16 +17,15 @@ import StoreKit
 
   @objc(detectMuteSwitch:) func detectMuteSwitch(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
-      SKMuteSwitchDetector.checkSwitch({ success, silent in
-        print("Success:", success, "  Silent:", silent)
+      MuteSwitchDetector.checkSwitch({ success, silent in
         self.commandDelegate!.send(
           CDVPluginResult(
             status: CDVCommandStatus_OK,
-            messageAs: silent
+            messageAs: success && silent
           ),
           callbackId: command.callbackId
         )
-      }
+      })
     })
   }
 
