@@ -17,7 +17,9 @@ exports.getLatency = function(success, error) {
  */
 
 exports.share = function(args, success, error) {
-  exec(success, error, "SMExtras", "share", [args.text || "", args.title || "", args.url || ""]);
+  if ( /Android/i.test(navigator.userAgent) ) {
+    exec(success, error, "SMExtras", "share", [args.text || "", args.title || "", args.url || ""]);
+  }
 };
 
 /**
@@ -25,13 +27,19 @@ exports.share = function(args, success, error) {
  */
 
 exports.detectMuteSwitch = function(success, error) {
-  exec(success, error, "SMExtras", "detectMuteSwitch", []);
+  if ( !/Android/i.test(navigator.userAgent) ) {
+    exec(success, error, "SMExtras", "detectMuteSwitch", []);
+  }
 };
 
 exports.openURL = function(url, success, error) {
-  exec(success, error, "SMExtras", "openURL", [url]);
+  if ( !/Android/i.test(navigator.userAgent) ) {
+    exec(success, error, "SMExtras", "openURL", [url]);
+  }
 };
 
 exports.requestAppReview = function(success, error) {
-  exec(success, error, "SMExtras", "requestAppReview", []);
+  if ( !/Android/i.test(navigator.userAgent) ) {
+    exec(success, error, "SMExtras", "requestAppReview", []);
+  }
 };
