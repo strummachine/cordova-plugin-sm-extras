@@ -101,7 +101,6 @@ public class SMExtras extends CordovaPlugin {
           Integer sampleRate = 44100;
           Integer bufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
           Integer frameSize = 2 * 2; // two channels of 16 bit (2-byte) PCM audio
-          Integer bufferSizeMs = 1000 * (bufferSize / frameSize) / audioTrack.getSampleRate();
           AudioTrack audioTrack = new AudioTrack(
             AudioManager.STREAM_MUSIC,
             sampleRate,
@@ -109,6 +108,7 @@ public class SMExtras extends CordovaPlugin {
             AudioFormat.ENCODING_PCM_16BIT,
             bufferSize,
             AudioTrack.MODE_STREAM);
+          Integer bufferSizeMs = 1000 * (bufferSize / frameSize) / audioTrack.getSampleRate();
           Integer latencyMs = (Integer) getLatencyMethod.invoke(audioTrack, (Object[]) null) - bufferSizeMs;
           if (latencyMs > 3000) {  // Sanity check that the latency is less than 3 seconds
             callbackContext.error("Reported latency (" + latencyMs + "ms) is too large.");
