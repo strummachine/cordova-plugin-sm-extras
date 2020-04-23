@@ -1,4 +1,5 @@
 import StoreKit
+import AVFoundation
 
 @objc(SMExtras) class SMExtras : CDVPlugin {
 
