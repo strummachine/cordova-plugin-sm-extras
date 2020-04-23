@@ -27,6 +27,7 @@ public class SMExtras extends CordovaPlugin {
   private Method getLatencyMethod;
   private AudioTrack audioTrack;
   private Integer sampleRate = 44100;
+  private Integer bufferSizeMs = 0;
 
   @Override
   public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -36,13 +37,16 @@ public class SMExtras extends CordovaPlugin {
     } catch (Throwable e) {
       // There's no guarantee this method exists. Do nothing.
     }
+    Integer bufferSize = AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT);
     audioTrack = new AudioTrack(
       AudioManager.STREAM_NOTIFICATION,
       sampleRate,
       AudioFormat.CHANNEL_OUT_STEREO,
       AudioFormat.ENCODING_PCM_16BIT,
-      AudioTrack.getMinBufferSize(sampleRate, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT), // buffer length in bytes
+      bufferSize,
       AudioTrack.MODE_STREAM);
+    Integer frameSize = 4; // two channels of 16 bit audio = 4 bytes
+    bufferSizeMs = (1000 * bufferSize / frameSize) / audioTrack.getSampleRate();
   }
 
   @Override
@@ -108,8 +112,13 @@ public class SMExtras extends CordovaPlugin {
     try {
       if ( getLatencyMethod != null && audioTrack != null ) {
         try {
-          Integer swLatencyMs = (Integer) getLatencyMethod.invoke(audioTrack);
-          callbackContext.success(swLatencyMs);
+          Integer latencyMs = (Integer) getLatencyMethod.invoke(audioTrack, (Object[]) null) - bufferSizeMs;
+          latencyMs = Math.max(latencyMs, 0); // Sanity check that the latency is non-negative
+          if (latencyMs > 3000) {  // Sanity check that the latency is less than 3 seconds
+            callbackContext.error("Reported latency (" + latencyMs + "ms) is too large.");
+          } else {
+            callbackContext.success(latencyMs);
+          }
         } catch (Exception e) {
           callbackContext.success(-1);
         }
