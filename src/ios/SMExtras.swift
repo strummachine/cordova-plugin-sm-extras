@@ -1,9 +1,6 @@
 import StoreKit
-import AVFoundation
 
 @objc(SMExtras) class SMExtras : CDVPlugin {
-
-  private lazy var muteSwitchDetector = MuteSwitchDetector()
 
   @objc(getLatency:) func getLatency(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
@@ -20,7 +17,8 @@ import AVFoundation
 
   @objc(detectMuteSwitch:) func detectMuteSwitch(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
-      muteSwitchDetector.testPlayback() { silent in
+      SKMuteSwitchDetector.checkSwitch({ success, silent in
+        print("Success:", success, "  Silent:", silent)
         self.commandDelegate!.send(
           CDVPluginResult(
             status: CDVCommandStatus_OK,
