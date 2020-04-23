@@ -6,8 +6,6 @@ import AVFoundation
   @objc(getLatency:) func getLatency(command: CDVInvokedUrlCommand) {
     DispatchQueue.main.async(execute: {
       let latency = AVAudioSession.sharedInstance().outputLatency + AVAudioSession.sharedInstance().ioBufferDuration
-      print("outputLatency", AVAudioSession.sharedInstance().outputLatency)
-      print("ioBufferDuration", AVAudioSession.sharedInstance().ioBufferDuration)
       self.commandDelegate!.send(
         CDVPluginResult(
           status: CDVCommandStatus_OK,
