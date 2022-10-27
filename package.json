@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-sm-extras",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "SM Extras for Cordova",
   "cordova": {
     "id": "cordova-plugin-sm-extras",

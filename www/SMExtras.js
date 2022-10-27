@@ -1,5 +1,11 @@
 var exec = require('cordova/exec');
 
+exports.apiVersion = 2;
+
+exports.getBuildInfo = function (success, error) {
+  exec(success, error, "SMExtras", 'getBuildInfo', []);
+};
+
 exports.disableIdleTimeout = function (success, error) {
   exec(success, error, "SMExtras", 'disableIdleTimeout', []);
 };
