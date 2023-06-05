@@ -1,4 +1,5 @@
 import StoreKit
+import UIKit
 import AVFoundation
 
 @objc(SMExtras) class SMExtras : CDVPlugin {
@@ -70,12 +71,41 @@ import AVFoundation
         }
     }
 
+    // Note: Because this method may not present an alert, it isn’t appropriate to call requestReview() or requestReview(in:) in response to a button tap or other user action.
     @objc(requestAppReview:) func requestAppReview(command: CDVInvokedUrlCommand) {
         DispatchQueue.main.async {
-            if #available(iOS 10.3, *) {
-                SKStoreReviewController.requestReview()
+            if #available(iOS 14.0, *) {
+                if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                    SKStoreReviewController.requestReview(in: scene)
+                }
             } else {
                 // Fallback on earlier versions
+                SKStoreReviewController.requestReview()
+            }
+
+            self.commandDelegate!.send(
+                CDVPluginResult(status: CDVCommandStatus_OK),
+                callbackId: command.callbackId
+            )
+        }
+    }
+
+    @objc(manageSubscriptions:) func manageSubscriptions(command: CDVInvokedUrlCommand) {
+        DispatchQueue.main.async {
+            if #available(iOS 15.3, *) {
+                if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                    Task {
+                        do {
+                            try await AppStore.showManageSubscriptions(in: window as! UIWindowScene)
+                        } catch {
+                            debugPrint(error)
+                        }
+                    }
+                }
+            } else {
+                // Fallback on earlier versions
+                let URL = URL(string: "https://apps.apple.com/account/subscriptions")!
+                UIApplication.shared.open(URL as URL, options: [:])
             }
 
             self.commandDelegate!.send(

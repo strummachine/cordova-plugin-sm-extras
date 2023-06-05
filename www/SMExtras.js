@@ -44,6 +44,12 @@ exports.openURL = function(url, success, error) {
   }
 };
 
+exports.manageSubscriptions = function(success, error) {
+  if ( !/Android/i.test(navigator.userAgent) ) {
+    exec(success, error, "SMExtras", "manageSubscriptions", []);
+  }
+};
+
 exports.requestAppReview = function(success, error) {
   if ( !/Android/i.test(navigator.userAgent) ) {
     exec(success, error, "SMExtras", "requestAppReview", []);
