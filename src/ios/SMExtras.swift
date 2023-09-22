@@ -92,14 +92,12 @@ import AVFoundation
 
     @objc(manageSubscriptions:) func manageSubscriptions(command: CDVInvokedUrlCommand) {
         DispatchQueue.main.async {
-            if #available(iOS 15.3, *) {
-                if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
-                    Task {
-                        do {
-                            try await AppStore.showManageSubscriptions(in: window as! UIWindowScene)
-                        } catch {
-                            debugPrint(error)
-                        }
+            if #available(iOS 15.3, *), let scene = UIApplication.shared.keyWindow?.windowScene as? UIWindowScene {
+                Task {
+                    do {
+                        try await AppStore.showManageSubscriptions(in: scene)
+                    } catch {
+                        debugPrint(error)
                     }
                 }
             } else {
